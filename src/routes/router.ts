@@ -49,4 +49,27 @@ router.get('/heroes/:id', (req: Request, res: Response) => {
     });
 });
 
+router.post('/heroesNew/:nombre/:poder' , (req: Request, res:Response) =>{
+    
+    const nombre = req.params.nombre;
+    const poder = req.params.poder;
+     const query = `
+     INSERT INTO heroes
+     VALUES ('', ${nombre}, ${poder})`;
+
+    MySQL.ejecutarQuery(query, (err:any, heroes: Object[]) =>{
+        if(err){
+            res.status(400).json({
+                ok: false,
+                error: err
+            });
+        } else{
+            res.json({
+                ok: true,
+                heroes: heroes
+            })
+        }
+    });
+});
+
 export default router;

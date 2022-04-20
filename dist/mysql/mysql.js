@@ -7,7 +7,7 @@ class MySQL {
         console.log('Clase inicializada');
         this.cnn = mysql.createConnection({
             host: 'localhost',
-            user: 'node',
+            user: 'root',
             password: 'rndc960604',
             database: 'node_db'
         });

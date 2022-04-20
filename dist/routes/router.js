@@ -48,4 +48,25 @@ router.get('/heroes/:id', (req, res) => {
         }
     });
 });
+router.post('/heroesNew/:nombre/:poder', (req, res) => {
+    const nombre = req.params.nombre;
+    const poder = req.params.poder;
+    const query = `
+     INSERT INTO heroes
+     VALUES ('', ${nombre}, ${poder})`;
+    mysql_1.default.ejecutarQuery(query, (err, heroes) => {
+        if (err) {
+            res.status(400).json({
+                ok: false,
+                error: err
+            });
+        }
+        else {
+            res.json({
+                ok: true,
+                heroes: heroes
+            });
+        }
+    });
+});
 exports.default = router;

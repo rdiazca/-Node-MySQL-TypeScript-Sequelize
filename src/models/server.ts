@@ -1,15 +1,41 @@
 
 import express = require('express');
 import path = require('path');
+import db from '../mysql/connection';
+import heroesRoutes from '../routes/heroe';
 
 export default class Server{
     public app: express.Application;
     public port: number;
+    public apiPaths = {
+        heroes: '/api/heroes'
+    }
 
     constructor(port: number){
         this.port = port;
         this.app = express();
+        this.dbConnection();
+        this.middlewares();
+        this.routes();
+       
+        
+    }
 
+    async dbConnection(){
+        try{
+        await db.authenticate();
+        console.log('Conectado');
+    }
+         catch (error: any) {
+            throw new Error(error);
+         }
+    }
+
+    routes(){
+        this.app.use(this.apiPaths.heroes, heroesRoutes);
+    }
+    middlewares(){
+        this.app.use(express.json());
     }
 
     listen( callback?: () => void){
